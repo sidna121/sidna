@@ -13,16 +13,14 @@ namespace Sidna.Helper
         {
             if (fromHistory !=null)
             {
-                double d1 = Math.Round(history.Average, Range.ToString().Length);
-                double d2 = Math.Round(fromHistory.Average, Range.ToString().Length);
+                double d1 = Math.Round(history.End, 3);
+                double d2 = Math.Round(fromHistory.End, 3);
 
-                if(d1 != (d2 + Range) && d1 != (d2 - Range))
-                {
-                    if (history.Average > fromHistory.Average)
-                        history.Type = HistoryType.صعودی;
-                    else if(history.Average < fromHistory.Average)
-                        history.Type = HistoryType.نزولی;
-                }
+                if (d1 > d2)
+                    history.Type = HistoryType.صعودی;
+                else if (d1 < d2)
+                    history.Type = HistoryType.نزولی;
+                else history.Type = fromHistory.Type;
             }
             return history.Type;
         }
