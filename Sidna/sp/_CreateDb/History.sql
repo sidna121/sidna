@@ -28,7 +28,7 @@ CREATE TABLE [dbo].[History](
 	[Low] [float] NULL,
 	[Avg] [float] NULL,
 	[Type] [tinyint] NULL,
-	[Slope] [tinyint] NOT NULL
+	[Slope] [float] NOT NULL
 ) ON [PRIMARY]
 GO
 

@@ -79,7 +79,7 @@ namespace Sidna.Helper
                             new SqlParameter("@Low", history.Low),
                             new SqlParameter("@Avg", history.Average),
                             new SqlParameter("@Type", history.Type),
-                            new SqlParameter("@Slope", history.Slope),
+                            new SqlParameter("@Slope", Math.Round(history.Slope)),
                         };
 
                     await dbo.spWrite("AddHistory", sqlParameter);
