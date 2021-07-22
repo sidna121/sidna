@@ -27,7 +27,9 @@ namespace Sidna.Helper
             try
             {
                 List<History> list = new List<History>();
-                using (var streamReader = File.OpenText(@"D:\kama\111\EURUSD\1.txt"))
+
+                _label.Text = "convert data"; await Task.Delay(10);
+                using (var streamReader = File.OpenText(@"D:\kama\111\EURUSD\0.txt"))
                 {
                     Int64 i = 0;
                     var lines = streamReader.ReadToEnd().Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -49,17 +51,25 @@ namespace Sidna.Helper
                     }
                 }
 
+                _label.Text = "histiry Type";await Task.Delay(100);
+                Normalize.histiryType(ref list);
+
+                _label.Text = "slope List"; await Task.Delay(100);
+                List<History> slopeList = Normalize.histiryType(null, list, 0.001);
+
+                _label.Text = "slope ..."; await Task.Delay(100);
+                Slope.getSlope(slopeList);
+
+                _label.Text = "slopeList => list"; await Task.Delay(100);                
+                foreach (var history in slopeList)
+                {
+                    var tt= (int)history.ID;
+                    var t = list[(int)history.ID];
+                    list[(int)history.ID].Slope = history.Slope;
+                }
+
                 foreach (var history in list)
                 {
-                    var historyIndex = list.IndexOf(history);
-                    var fromHistory = list.FirstOrDefault(x=> x.ID == history.ID - 1);
-                   
-                    history.Type = Normalize.HistoryAvgNormal(history, fromHistory, 0.001);
-                    
-                    var historySlope = Slope.getSlope(history, fromHistory, list);
-                    if (historySlope.ID > 0)
-                        list.First(x => x.ID == historySlope.ID).Slope = historySlope.Slope;
-
                     List<SqlParameter> sqlParameter = new List<SqlParameter> {
                             new SqlParameter("@ID", history.ID),
                             new SqlParameter("@Date", history.Date.ToString("yyyy-MM-dd hh:mm:ss")),
@@ -69,14 +79,11 @@ namespace Sidna.Helper
                             new SqlParameter("@Low", history.Low),
                             new SqlParameter("@Avg", history.Average),
                             new SqlParameter("@Type", history.Type),
-                            new SqlParameter("@SlopeID", historySlope.ID),
-                            new SqlParameter("@Slope", historySlope.Slope),
+                            new SqlParameter("@Slope", history.Slope),
                         };
 
                     await dbo.spWrite("AddHistory", sqlParameter);
 
-                    //if (history.Type != HistoryType.Unknown)
-                    //    fromHistory = history;
                     _count++;
                     if (_count % 10 == 0)
                         _label.Text = $"{_count} of {_length} : {Math.Round((_count * 100) / _length, 2) }";

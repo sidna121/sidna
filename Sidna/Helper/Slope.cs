@@ -36,10 +36,10 @@ namespace Sidna.Helper
                 history.Type != HistoryType.Unknown)
             {
                 HistoryType type = history.Type == HistoryType.نزولی ? HistoryType.صعودی : HistoryType.نزولی;
-                var result = list.LastOrDefault(x=> x.Type == type);
+                var result = list.LastOrDefault(x => x.Type == type);
                 if (result != null && result.Slope == 0)
                 {
-                    var i = Math.Round(history.Average - result.Average,4) * 100;
+                    var i = Math.Round(history.Average - result.Average, 4) * 100;
                     var i2 = (history.Date - result.Date).TotalMinutes;
                     slope.Slope = i2 / i;
                     slope.ID = result.ID;
@@ -48,5 +48,25 @@ namespace Sidna.Helper
 
             return slope;
         }
+        public static void getSlope(List<History> SlpeList)
+        {
+
+            foreach (var history in SlpeList)
+            {
+                var h1 = SlpeList.FirstOrDefault(x => x.ID > history.ID);
+                if(h1 != null)
+                {
+                    var i = Math.Round(h1.Str - history.Str, 4) * 100;
+                    var i2 = (h1.Date - history.Date).TotalMinutes;
+                    history.Slope = i2 / i;
+                }
+            }
+        }
+        //public static void getSlope(History slope, List<History> list)
+        //{
+        //    double end = 0;
+        //    if(slope.)
+        //    var end = slope.Hig
+        //}
     }
 }

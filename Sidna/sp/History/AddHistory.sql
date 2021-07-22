@@ -11,7 +11,6 @@ CREATE PROCEDURE AddHistory
 	@Low FLOAT (53),
 	@Avg FLOAT (53),
 	@Type TINYINT ,
-	@SlopeID BIGINT,
 	@Slope FLOAT (53)
 
 WITH ENCRYPTION
@@ -19,10 +18,6 @@ AS
 BEGIN
 
 	INSERT INTO [dbo].[History]([ID], [Date], [Str], [End], [Hig], [Low], [Avg], [Type], [Slope] )
-	VALUES(@ID, CAST(@Date AS DateTime), @Str, @End, @Hig, @Low, @Avg, @Type,0)
+	VALUES(@ID, CAST(@Date AS DateTime), @Str, @End, @Hig, @Low, @Avg, @Type,@Slope)
 
-	IF @SlopeID > 0
-	BEGIN
-		UPDATE dbo.History SET Slope = @Slope WHERE ID = @SlopeID  
-	END
 END
