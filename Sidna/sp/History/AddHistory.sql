@@ -11,13 +11,14 @@ CREATE PROCEDURE AddHistory
 	@Low FLOAT (53),
 	@Avg FLOAT (53),
 	@Type TINYINT ,
+	@Step BIT ,
 	@Slope FLOAT (53)
 
 WITH ENCRYPTION
 AS
 BEGIN
 
-	INSERT INTO [dbo].[History]([ID], [Date], [Str], [End], [Hig], [Low], [Avg], [Type], [Slope] )
-	VALUES(@ID, CAST(@Date AS DateTime), @Str, @End, @Hig, @Low, @Avg, @Type,@Slope)
+	INSERT INTO [dbo].[History]([ID], [Date], [Str], [End], [Hig], [Low], [Avg], [Type], Step, [Slope] )
+	VALUES(@ID, CAST(@Date AS DateTime), @Str, @End, @Hig, @Low, @Avg, @Type, @Step, @Slope)
 
 END

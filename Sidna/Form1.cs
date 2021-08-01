@@ -25,15 +25,23 @@ namespace Sidna
         
         async void s()
         {
-            string selectAttachments = "SELECT TOP 5 * FROM [dbo].[History]";
-            var sourceModelResult = await dbo.Read<History>(selectAttachments);
-            var yy = 1;
+            //string selectAttachments = "SELECT TOP 5 * FROM [dbo].[History]";
+            //var sourceModelResult = await dbo.Read<History>(selectAttachments);
+            //var yy = 1;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        async void button1_Click(object sender, EventArgs e)
         {
-            if(label1.Text == "")
-                new CanvertData(label1).TextTodHistory();
+                string query = "SELECT COALESCE(MAX(ID), 0 ) ID FROM [dbo].[History]";
+                var result = await dbo.Read<History>(query);
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+
+                if (label1.Text == "")
+                    new CanvertData(label1).TextTodHistory(result.Data.First().ID + 1, openFileDialog1.FileName);
+
+            }
+
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Sidna.Model
         public double Avg { get; set; }
         public double Average => (Str + End) / 2;
         public HistoryType Type { get; set; }
+        public bool Step { get; set; }
         public double Slope { get; set; }
     }
 }

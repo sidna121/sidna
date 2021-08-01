@@ -41,6 +41,7 @@ namespace Sidna.Helper
         }
         public static List<History> histiryType(History fromHistory, List < History> list, double Range)
         {
+            //     ***  refactor  ***
             List<History> returnList = new List<History>();
             foreach (var history in list)
             {
@@ -52,7 +53,8 @@ namespace Sidna.Helper
                             && fromHistory.End > (history.End + Range))
                         {
                             fromHistory = history;
-                            for (int i = (int)history.ID; i > fromHistory.ID; i--)
+                            int i7 = list.FindIndex(x => x.ID == history.ID);
+                            for (int i = list.FindIndex(x => x.ID == history.ID); i >= 0; i--)
                                 if (list[i].Type == fromHistory.Type && list[i].Str > fromHistory.Str)
                                     fromHistory = list[i];
                             returnList.Add(fromHistory);
@@ -64,7 +66,7 @@ namespace Sidna.Helper
                             && fromHistory.End < (history.End - Range))
                         {
                             fromHistory = history;
-                            for (int i = (int)history.ID; i > fromHistory.ID; i--)
+                            for (int i = list.FindIndex(x => x.ID == history.ID); i >= 0; i--)
                                 if (list[i].Type == fromHistory.Type &&  list[i].Str < fromHistory.Str)
                                     fromHistory = list[i];
                             returnList.Add(fromHistory);
