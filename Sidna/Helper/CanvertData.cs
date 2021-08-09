@@ -70,7 +70,7 @@ namespace Sidna.Helper
                 List<History> slopeList = Normalize.histiryType(null, list, 0.002);
 
                 _label.Text = "slope ..."; await Task.Delay(100);
-                Slope.getSlope(slopeList);
+                Slope.getSlope(slopeList, ref list);
 
                 _label.Text = "slopeList => list"; await Task.Delay(100);
 

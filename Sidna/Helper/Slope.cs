@@ -48,17 +48,18 @@ namespace Sidna.Helper
 
             return slope;
         }
-        public static void getSlope(List<History> SlpeList)
+        public static void getSlope(List<History> SlpeList, ref List<History> list)
         {
-
             foreach (var history in SlpeList)
             {
                 var h1 = SlpeList.FirstOrDefault(x => x.ID > history.ID);
                 if(h1 != null)
                 {
-                    var i = Math.Round(h1.Str - history.Str, 4) * 100;
-                    var i2 = (h1.Date - history.Date).TotalMinutes;
-                    history.Slope = i2 / i;
+                    var s1 = list.First(x => x.ID == h1.ID);
+                    var s2 = list.First(x => x.ID == history.ID);
+                    var i = Math.Round(s1.Str - s2.Str, 4) * 100;
+                    var i2 = (s1.Date - s2.Date).TotalMinutes;
+                    s2.Slope = i2 / i;
                 }
             }
         }
